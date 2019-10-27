@@ -6,6 +6,6 @@ https://github.com/samdoshi/cirklon-instrument-editor
 
 This software use:
 
-https://github.com/eligrey/FileSaver.js
-https://knockoutjs.com
-https://picturepan2.github.io/spectre/
+- https://github.com/eligrey/FileSaver.js
+- https://knockoutjs.com
+- https://picturepan2.github.io/spectre/

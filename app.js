@@ -494,8 +494,82 @@ var ViewModel = function() {
 			self.session().importInstrument(data, name);
 		}
 	}
+	
+	self.newSession = function() {
+		if(self.session()) {
+			self.session().newSession();
+		}
+	}
 
 	self.exportInstrument = function() {
+		if(!self.session()) {
+			window.confirm("Nothing to export!"); 
+			return;
+		}
+
+		if(!self.session().selectedInstrument()) {
+			window.confirm("No instruments to export here!"); 
+			return;
+		}
+
+		var instrumentsData = { instrument_data: {} };
+		var instrumentsObject = instrumentsData['instrument_data'] = {};
+
+		var instrument = self.session().selectedInstrument();
+		var inst = self.getInstrumentData(instrument);
+		instrumentsObject[inst.name] = inst.data;
+		self.save(instrumentsData, inst.name + '.CKI');
+	}
+
+	self.getInstrumentData = function(instrument) {
+		var inst = {};
+		var ccs = inst['CC_defs'] = {};
+		var trs = inst['track_control'] = {};
+
+		var settings = instrument.settings();
+		var name = settings.name();
+
+		var continuousControls = instrument.continuousControls();
+		ko.utils.arrayForEach(continuousControls, function (continuousControl) {
+			var cc = {};
+			var ccName = "CC_" + continuousControl.cc();
+
+			cc['label'] = continuousControl.name();
+			cc['min_val'] = continuousControl.min();
+			cc['max_val'] = continuousControl.max();
+			cc['start_val'] = continuousControl.start();
+
+			ccs[ccName] = cc;
+		});
+
+		var trackControls = instrument.trackControls();
+		ko.utils.arrayForEach(trackControls, function (trackControl, index) {
+			var tr = {};
+			var slot = 'slot_' + (index + 1);
+			var option = trackControl.option();
+
+			if(option == CirklonTrackCtrl) {
+				tr['track_control'] = trackControl.trackValue();
+				trs[slot] = tr;
+
+			} else if(option == CirklonContinuousControl) {
+				tr['MIDI_CC'] = trackControl.continuousControl().cc();
+				trs[slot] = tr;
+			}
+		});
+
+		inst['midi_port'] = settings.midiPort();
+		inst['midi_chan'] = parseInt(settings.midiChannel());
+		inst['multi'] = settings.multi() ? 'true' : 'false';
+		inst['presend_pgm'] = settings.presend_pgm() ? 'on' : 'off';
+		inst['default_note'] = settings.default_note();
+		inst['default_patt'] = settings.default_patt();
+		inst['poly_spread'] = settings.poly_spread() ? 'on' : 'off';
+
+		return { data: inst, name: name };
+	}
+
+	self.saveSession = function() {
 		if(!self.session()) {
 			window.confirm("Nothing to export!"); 
 			return;
@@ -511,58 +585,25 @@ var ViewModel = function() {
 
 		var instruments = self.session().instruments();
 		ko.utils.arrayForEach(instruments, function (instrument) {
-			var inst = {};
-			var ccs = inst['CC_defs'] = {};
-			var trs = inst['track_control'] = {};
-
-			var settings = instrument.settings();
-			var name = settings.name();
-
-			var continuousControls = instrument.continuousControls();
-			ko.utils.arrayForEach(continuousControls, function (continuousControl) {
-				var cc = {};
-				var ccName = "CC_" + continuousControl.cc();
-
-				cc['label'] = continuousControl.name();
-				cc['min_val'] = continuousControl.min();
-				cc['max_val'] = continuousControl.max();
-				cc['start_val'] = continuousControl.start();
-
-				ccs[ccName] = cc;
-			});
-
-			var trackControls = instrument.trackControls();
-			ko.utils.arrayForEach(trackControls, function (trackControl, index) {
-				var tr = {};
-				var slot = 'slot_' + (index + 1);
-				var option = trackControl.option();
-
-				if(option == CirklonTrackCtrl) {
-					tr['track_control'] = trackControl.trackValue();
-					trs[slot] = tr;
-					
-				} else if(option == CirklonContinuousControl) {
-					tr['MIDI_CC'] = trackControl.continuousControl().cc();
-					trs[slot] = tr;
-				}
-			});
-
-			inst['midi_port'] = settings.midiPort();
-			inst['midi_chan'] = parseInt(settings.midiChannel());
-			inst['multi'] = settings.multi() ? 'true' : 'false';
-			inst['presend_pgm'] = settings.presend_pgm() ? 'on' : 'off';
-			inst['default_note'] = settings.default_note();
-			inst['default_patt'] = settings.default_patt();
-			inst['poly_spread'] = settings.poly_spread() ? 'on' : 'off';
-
-			instrumentsObject[name] = inst;
+			var inst = self.getInstrumentData(instrument);
+			instrumentsObject[inst.name] = inst.data;
 		});
 
+		self.save(instrumentsData, 'INSTS.CKI');
+	}
 
-		var output = JSON.stringify(instrumentsData, null, '\t');  
+	self.save = function(data, name) {
+		try {
+			var output = JSON.stringify(data, null, '\t');  
+			var blob = new Blob([output], { 'type': 'text\/plain;charset=' + document.characterSet });
+			window.saveAs(blob, name || 'INSTS.CKI');
+		} catch (e) {
+			console.log(e);
+		} finally {
+			return true;
+		}
 
-		var blob = new Blob([output], { 'type': 'text\/plain;charset=' + document.characterSet });
-		window.saveAs(blob, 'INSTS.CKI');
+		return false;
 	}
 };
 
