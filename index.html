@@ -128,6 +128,21 @@
 									<label class="form-switch">
 										<input type="checkbox" data-bind="checked: poly_spread"><i class="form-icon"></i> Poly Spread
 									</label>
+									<label class="form-switch">
+										<input type="checkbox" data-bind="checked: no_bankL"><i class="form-icon"></i> No Bank L
+									</label>
+									<label class="form-switch">
+										<input type="checkbox" data-bind="checked: no_bankM"><i class="form-icon"></i> No Bank M
+									</label>
+									<label class="form-switch">
+										<input type="checkbox" data-bind="checked: no_xpose"><i class="form-icon"></i> No XPose
+									</label>
+									<label class="form-switch">
+										<input type="checkbox" data-bind="checked: no_fts"><i class="form-icon"></i> No FTS
+									</label>
+									<label class="form-switch">
+										<input type="checkbox" data-bind="checked: show_note_nums"><i class="form-icon"></i> Show note nums
+									</label>
 								</div>
 							</div>
 						</div>
@@ -158,7 +173,14 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="5"><span class="text-primary" data-bind="text: continuousControls().length"></span> Midi CC´s</td>
+										<td colspan="3"><span class="text-primary" data-bind="text: continuousControls().length"></span> Midi CC´s</td>
+										<td colspan="2">
+											<span>Sort by</span>
+											<div class="btn-group">
+												<button class="btn btn-sm" data-bind="click: sortContinuousControls.bind($data, 'cc')">CC num</button>
+												<button class="btn btn-sm" data-bind="click: sortContinuousControls.bind($data, 'name')">name</button>
+											</div>
+										</td>
 									</tr>
 								</tfoot>
 							</table>

@@ -140,6 +140,10 @@ var Settings = function(data, name) {
 	self.default_patt = ko.observable(data ? data['default_patt'] || 'P3' : 'P3');
 	self.poly_spread = ko.observable(data ? data['poly_spread'] || false : true);
 	self.no_bankL = ko.observable(data ? data['no_bankL'] || false : false);
+	self.no_bankM = ko.observable(data ? data['no_bankM'] || false : false);
+	self.no_xpose = ko.observable(data ? data['no_xpose'] || false : false);
+	self.no_fts = ko.observable(data ? data['no_fts'] || false : false);
+	self.show_note_nums = ko.observable(data ? data['show_note_nums'] || false : false);
 	self.multi = ko.observable(data ? data['multi'] || false : false);
 
 	self.midiPortValues = ko.observableArray(midiPortValues);
@@ -313,6 +317,20 @@ var Instrument = function(data, name) {
 			self.continuousControls.remove(self.continuousControlSelected());
 			self.continuousControlSelected(null);
 			self.continuousControlEditor(null);
+		}
+	}
+
+	self.sortContinuousControls = function(type, data) {
+		if(self.continuousControls()) {
+			if(type === 'cc') {
+				self.continuousControls.sort(function(left, right) { 
+					return left.cc() == right.cc() ? 0 : (parseInt(left.cc()) < parseInt(right.cc()) ? -1 : 1) 
+				});
+			} else if(type === 'name') {
+				self.continuousControls.sort(function(left, right) { 
+					return left.name() == right.name() ? 0 : (left.name() < right.name() ? -1 : 1) 
+				});
+			}
 		}
 	}
 
@@ -560,11 +578,16 @@ var ViewModel = function() {
 
 		inst['midi_port'] = settings.midiPort();
 		inst['midi_chan'] = parseInt(settings.midiChannel());
-		inst['multi'] = settings.multi() ? 'true' : 'false';
-		inst['presend_pgm'] = settings.presend_pgm() ? 'on' : 'off';
+		inst['multi'] = settings.multi();
+		inst['presend_pgm'] = settings.presend_pgm();
 		inst['default_note'] = settings.default_note();
 		inst['default_patt'] = settings.default_patt();
 		inst['poly_spread'] = settings.poly_spread() ? 'on' : 'off';
+		inst['no_bankL'] = settings.no_bankL();
+		inst['no_bankM'] = settings.no_bankM();
+		inst['no_xpose'] = settings.no_xpose();
+		inst['no_fts'] = settings.no_fts();
+		inst['show_note_nums'] = settings.no_fts();
 
 		return { data: inst, name: name };
 	}
