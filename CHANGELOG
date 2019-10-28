@@ -1,3 +1,9 @@
+v0.0.3 (2019-10-28)
+
+- Added
+    missing base setting parameters,
+    sort function for cc´s (by num + name)
+
 v0.0.2 (2019-10-27)
 - Added
     session: new, save
