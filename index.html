@@ -187,7 +187,7 @@
 						</div>
 						<div class="divider-vert col-1"></div>
 						<div class="column col-5" data-bind="with: continuousControlEditor">
-							<form class="form-horizontal" onsubmit="return false;">
+							<form class="form-horizontal" onSubmit="return false;">
 								<legend data-bind="text: $parent.continuousControlSelected() ? 'Edit' : 'New'">New</legend>
 								<div class="form-group">
 									<div class="col-3"><label class="form-label">Name</label></div>
@@ -216,8 +216,8 @@
 								<div class="form-group">
 									<div class="col-3"></div>
 									<div class="col-9">
-										<button class="btn btn-sm tooltip" data-tooltip="Delete selected continuous control from list." data-bind="click: $parent.deleteContinuousControl, visible: $parent.continuousControlSelected()">Delete</button>
-										<button class="btn btn-sm tooltip" data-tooltip="Add new continuous control to list." data-bind="click: $parent.newContinuousControl, visible: !$parent.continuousControlSelected()">Add new</button>
+										<a class="btn btn-sm tooltip" data-tooltip="Delete selected continuous control from list." data-bind="click: $parent.deleteContinuousControl, visible: $parent.continuousControlSelected()">Delete</a>
+										<a class="btn btn-sm tooltip" data-tooltip="Add new continuous control to list." data-bind="click: $parent.newContinuousControl, visible: !$parent.continuousControlSelected()">Add new</a>
 									</div>
 								</div>
 							</form>
@@ -238,7 +238,7 @@
 						<div class="divider-vert col-1"></div>
 						<div class="column col-4">
 							<div data-bind="with: trackControlEditor">
-								<form class="form-horizontal" onsubmit="return false;">
+								<form class="form-horizontal" onSubmit="return false;">
 									<legend data-bind="visible: $parent.trackControlSelected()">Edit</legend>
 									<legend data-bind="visible: !$parent.trackControlSelected()">Select a element to Edit</legend>
 									<div class="form-group">
@@ -308,7 +308,7 @@
 						</div>
 						<div class="divider-vert col-1"></div>
 						<div class="column col-4" data-bind="with: rowDefinitionEditor">
-							<form class="form-horizontal" onsubmit="return false;">
+							<form class="form-horizontal" onSubmit="return false;">
 								<legend data-bind="text: $parent.rowDefinitionSelected() ? 'Edit' : 'New'">New</legend>
 								<div class="form-group">
 									<div class="col-3"><label class="form-label">Name</label></div>
@@ -329,8 +329,8 @@
 								<div class="form-group">
 									<div class="col-3"></div>
 									<div class="col-9">
-										<button class="btn btn-sm tooltip" data-tooltip="Delete selected row definition from list." data-bind="click: $parent.deleteRowDefinition, visible: $parent.rowDefinitionSelected()">Delete</button>
-										<button class="btn btn-sm tooltip" data-tooltip="Add new row definition to list." data-bind="click: $parent.newRowDefinition, visible: !$parent.rowDefinitionSelected()">Add new</button>
+										<a class="btn btn-sm tooltip" data-tooltip="Delete selected row definition from list." data-bind="click: $parent.deleteRowDefinition, visible: $parent.rowDefinitionSelected()">Delete</a>
+										<a class="btn btn-sm tooltip" data-tooltip="Add new row definition to list." data-bind="click: $parent.newRowDefinition, visible: !$parent.rowDefinitionSelected()">Add new</a>
 									</div>
 								</div>
 							</form>
