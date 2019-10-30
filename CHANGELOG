@@ -1,11 +1,15 @@
+v0.0.5 (2019-10-30)
+-Fix
+    track_values export / save to cirklon json notation
+-Added
+    test instrument data
+    
 v0.0.4 (2019-10-30)
-
 -Fix
     prevent keyboard input 'enter' to avoid form submits
 
 
 v0.0.3 (2019-10-28)
-
 - Added
     missing base setting parameters,
     sort function for cc´s (by num + name)
@@ -17,5 +21,4 @@ v0.0.2 (2019-10-27)
 
 
 v0.0.1 (2019-10-25)
-
 - Initial commit
