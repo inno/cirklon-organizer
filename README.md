@@ -9,3 +9,9 @@ This software use:
 - https://github.com/eligrey/FileSaver.js
 - https://knockoutjs.com
 - https://picturepan2.github.io/spectre/
+
+
+![Settings](Screenshots/Settings.png)
+![MidiCC](Screenshots/MidiCC.png)
+![TrackControl](Screenshots/TrackControl.png)
+![RowDefs](Screenshots/RowDefs.png)
