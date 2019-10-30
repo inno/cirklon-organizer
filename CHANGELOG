@@ -1,3 +1,8 @@
+v0.0.6 (2019-10-30)
+-Added
+    gitlab pages active by CI
+    https://cirklon-community.gitlab.io/cirklon-organizer/
+
 v0.0.5 (2019-10-30)
 -Fix
     track_values export / save to cirklon json notation
