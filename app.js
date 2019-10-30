@@ -542,7 +542,7 @@ var ViewModel = function() {
 	self.getInstrumentData = function(instrument) {
 		var inst = {};
 		var ccs = inst['CC_defs'] = {};
-		var trs = inst['track_control'] = {};
+		var trs = inst['track_values'] = {};
 
 		var settings = instrument.settings();
 		var name = settings.name();
@@ -571,7 +571,8 @@ var ViewModel = function() {
 				trs[slot] = tr;
 
 			} else if(option == CirklonContinuousControl) {
-				tr['MIDI_CC'] = trackControl.continuousControl().cc();
+				tr['MIDI_CC'] = Number(trackControl.continuousControl().cc());
+				tr['label'] = trackControl.continuousControl().name();
 				trs[slot] = tr;
 			}
 		});
