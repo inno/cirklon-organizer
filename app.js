@@ -138,7 +138,7 @@ var Settings = function(data, name) {
 	self.presend_pgm = ko.observable(data ? data['presend_pgm'] || false : false);
 	self.default_note = ko.observable(data ? data['default_note'] || 'C 3' : 'C 3');
 	self.default_patt = ko.observable(data ? data['default_patt'] || 'P3' : 'P3');
-	self.poly_spread = ko.observable(data ? data['poly_spread'] || false : true);
+	self.poly_spread = ko.observable(data ? data['poly_spread'] || false : false);
 	self.no_bankL = ko.observable(data ? data['no_bankL'] || false : false);
 	self.no_bankM = ko.observable(data ? data['no_bankM'] || false : false);
 	self.no_xpose = ko.observable(data ? data['no_xpose'] || false : false);
@@ -553,8 +553,8 @@ var ViewModel = function() {
 			var ccName = "CC_" + continuousControl.cc();
 
 			cc['label'] = continuousControl.name();
-			cc['min_val'] = continuousControl.min();
-			cc['max_val'] = continuousControl.max();
+			cc['min_val'] = parseInt(continuousControl.min());
+			cc['max_val'] = parseInt(continuousControl.max());
 			cc['start_val'] = continuousControl.start();
 
 			ccs[ccName] = cc;
