@@ -1,3 +1,8 @@
+v0.0.7 (2020-06-23)
+-Fix
+    make sure min_val and max_val are stored as integer! Javascript! (⊙_☉)
+    make poly_spread default setting to false
+
 v0.0.6 (2019-10-30)
 -Added
     gitlab pages active by CI
