@@ -5,7 +5,7 @@ const CirklonEmpty = 'Empty';
 const CirklonContinuousControl = 'MIDI CC';
 const CirklonTrackCtrl = 'Track CTRL';
 const trackValues = ['pgm', 'quant%', 'note%', 'noteC', 'velo%', 'veloC', 'leng%', 'tbase', 'octave', 'knob1', 'knob2'];
-const midiPortValues = ['1', '2', '3', '4', '5', 'usb1', 'usb2', 'usb3', 'usb4'];
+const midiPortValues = ['1', '2', '3', '4', '5', 'usb1', 'usb2', 'usb3', 'usb4', 'usb5'];
 
 var RowDefinitionEditor = function(rowDefinition) {
 	var self = this;
@@ -134,17 +134,18 @@ var Settings = function(data, name) {
 
 	self.name = ko.observable(name || 'Inst');
 	self.midiPort = ko.observable(data ? data['midi_port'] || '1' : '1');
-	self.midiChannel = ko.observable(data ? data['midi_chan'] || 1 : '1');
+	self.midiChannel = ko.observable(data ? data['midi_chan'] || 1 : 1);
 	self.presend_pgm = ko.observable(data ? data['presend_pgm'] || false : false);
 	self.default_note = ko.observable(data ? data['default_note'] || 'C 3' : 'C 3');
 	self.default_patt = ko.observable(data ? data['default_patt'] || 'P3' : 'P3');
-	self.poly_spread = ko.observable(data ? data['poly_spread'] || false : false);
+	self.poly_spread = ko.observable((data ? data['poly_spread'] || false : false) == 'on' ? true : false);
 	self.no_bankL = ko.observable(data ? data['no_bankL'] || false : false);
 	self.no_bankM = ko.observable(data ? data['no_bankM'] || false : false);
 	self.no_xpose = ko.observable(data ? data['no_xpose'] || false : false);
 	self.no_fts = ko.observable(data ? data['no_fts'] || false : false);
 	self.show_note_nums = ko.observable(data ? data['show_note_nums'] || false : false);
 	self.multi = ko.observable(data ? data['multi'] || false : false);
+	self.no_thru = ko.observable(data ? data['no_thru'] || false : false);
 
 	self.midiPortValues = ko.observableArray(midiPortValues);
 
@@ -553,9 +554,9 @@ var ViewModel = function() {
 			var ccName = "CC_" + continuousControl.cc();
 
 			cc['label'] = continuousControl.name();
-			cc['min_val'] = parseInt(continuousControl.min());
-			cc['max_val'] = parseInt(continuousControl.max());
-			cc['start_val'] = continuousControl.start();
+			cc['min_val'] = Number(continuousControl.min());
+			cc['max_val'] = Number(continuousControl.max());
+			cc['start_val'] = Number(continuousControl.start());
 
 			ccs[ccName] = cc;
 		});
@@ -578,8 +579,8 @@ var ViewModel = function() {
 		});
 
 		inst['midi_port'] = settings.midiPort();
-		inst['midi_chan'] = parseInt(settings.midiChannel());
-		inst['multi'] = settings.multi();
+		inst['midi_chan'] = Number(settings.midiChannel());
+		inst['multi'] = Boolean(settings.multi());
 		inst['presend_pgm'] = settings.presend_pgm();
 		inst['default_note'] = settings.default_note();
 		inst['default_patt'] = settings.default_patt();
@@ -589,6 +590,7 @@ var ViewModel = function() {
 		inst['no_xpose'] = settings.no_xpose();
 		inst['no_fts'] = settings.no_fts();
 		inst['show_note_nums'] = settings.no_fts();
+		inst['no_thru'] = settings.no_thru();
 
 		return { data: inst, name: name };
 	}
